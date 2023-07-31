@@ -4,7 +4,7 @@ A Vagrant box for creating an Azure Development Environment.
 
 ## Basis for the Box
 
-Used the `ubuntu/focal64` box.
+Used the Ubuntu 20.04 LTS, `ubuntu/focal64`, box.
 
 Initialized the repo with:
 
