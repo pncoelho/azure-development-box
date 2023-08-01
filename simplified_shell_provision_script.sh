@@ -5,8 +5,8 @@ DISTRO_SHORT_CODENAME=$(lsb_release -cs)
 PACKAGE_ARCHITECTURE=$(dpkg --print-architecture)
 
 # Variables - Package Versions
-VERS_AZURE_CLI='2.50.\*'
-VERS_AZURE_FUNC_TOOLS='4.0.\*'
+VERS_AZURE_CLI="2.50.\*"
+VERS_AZURE_FUNC_TOOLS="4.0.\*"
 
 # Install the Microsoft package repository GPG key, to validate package integrity, needed for installing Azure CLI and Azure Functions Core Tools
 curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
@@ -27,8 +27,8 @@ sudo apt-get install -y dotnet-sdk-7.0
 
 # Installing a specific `azure-cli` version:
 # sudo apt-get install -y azure-cli=2.50.\*-1~focal
-sudo apt-get install -y azure-cli=$VERS_AZURE_CLI
+sudo sh -c 'sudo apt-get install -y azure-cli='$VERS_AZURE_CLI''
 
 # Install the Core Tools package:
 # sudo apt-get install -y azure-functions-core-tools-4
-sudo apt-get install -y azure-functions-core-tools-4=$VERS_AZURE_FUNC_TOOLS
+sudo sh -c 'sudo apt-get install -y azure-functions-core-tools-4='$VERS_AZURE_FUNC_TOOLS''
