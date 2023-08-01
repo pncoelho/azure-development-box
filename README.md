@@ -18,6 +18,9 @@ Installation will be done in a first phase using the [Vagrant Shell Provisioner]
 
 TODO: Plans of moving this to a configuration tool such as Ansible, Puppet or Chef
 
+> This might be something to look in to once the provisioning is done with a configuration tool:
+> https://developer.hashicorp.com/vagrant/docs/provisioning/basic_usage#run-once-always-or-never
+
 ### Installing Individual Components
 
 The following section describes how each of the components would be independently installed
