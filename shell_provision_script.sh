@@ -32,8 +32,3 @@ sudo sh -c 'sudo apt-get install -y azure-cli='$VERS_AZURE_CLI''
 # Install the Core Tools package:
 # sudo apt-get install -y azure-functions-core-tools-4
 sudo sh -c 'sudo apt-get install -y azure-functions-core-tools-4='$VERS_AZURE_FUNC_TOOLS''
-
-# Getting installed versions of packages
-dotnet --info
-az –version
-func –version
