@@ -14,9 +14,11 @@ repos:
     rev: v1.1.0
     hooks:
       - id: vagrant-validate
-# Will be added once Commitizen is installed and configured
-#  # Use Commitizen to validate the commit message
-#  - repo: https://github.com/commitizen-tools/commitizen
-#    rev: v1.17.0
-#    hooks:
-#      - id: commitizen
+  # Use Commitizen to validate the commit message
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: v3.6.0
+    hooks:
+      - id: commitizen
+      - id: commitizen-branch
+        stages:
+          - push
