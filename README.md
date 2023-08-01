@@ -32,8 +32,34 @@ To see a list of things still needing to be implemented, please refer to the [Ch
 
 ### Contributing
 
-Rules on how to contribute to this repo.
+The following section describes how the development process for this repo is done and how to contribute to this project.
+
+#### Commit Structure
+
+To keep things simple, all commits in this repo will follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) standard.
+
+#### Commit Validation
+
+To ensure commits follow the [standard listed above](#commit-structure), we employ [pre-commit](https://pre-commit.com/) with [Commitizen](https://commitizen-tools.github.io/commitizen/) as a plugin.
+
+This way, when performing commits we can validate the message (and many other interesting things), and even use [Commitizen](https://commitizen-tools.github.io/commitizen/) to help write the messages with the correct structure.
+
+What you need to do is simply:
+1. Have or install [pre-commit](https://pre-commit.com/#installation)
+2. Setup the git hook scripts with `pre-commit install`
+3. *(Optional):* Run `pre-commit` against all files, to ensure any files you've created are valid
+   1. `pre-commit run --all-files`
 
 #### Branching Strategy
 
-GitHub Flow
+The selected branching strategy for this project is GitHub Flow. If you are not familiar with it, please have a look at the [following link from GitHub themselves](https://docs.github.com/en/get-started/quickstart/github-flow).
+
+As a quick summary, if you have something to add you, the workflow is as follows:
+1. Create a new (*feature*) branch
+2. Add your changes to that branch
+3. When you've implemented what you wanted, create a PR to merge your features to `main`
+4. When the PR is create, the CI pipeline will run and check if everything is OK with your code
+5. If the CI pipeline run is valid, reviewers will approve the PR
+6. With the PR approved, one of the maintainers will merge the PR
+7. With the PR merged, the CD pipeline will run
+8. The CP pipeline will create a new version, with CHANGELOG and (*hopefully soon*) publish the box to Vagrant Cloud
