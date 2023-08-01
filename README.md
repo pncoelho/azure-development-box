@@ -69,6 +69,12 @@ In order for this to help with the messages you create, you need to have [Commit
 
 For more help on this, please have a look at the [Commitizen `commit` command page](https://commitizen-tools.github.io/commitizen/commit/).
 
+List of useful Commitizen commands:
+- `cz commit`: assisted commit message writing
+- `cz bump`: bump project version and create a Git tag
+- `cz bump --major-version-zero`: the same as `cz bump`, but if we're using v0, maintains the major version to `0`
+- `cz bump --dry-run`: performs a dry run of `cz bump`
+
 #### Branching Strategy
 
 The selected branching strategy for this project is GitHub Flow. If you are not familiar with it, please have a look at the [following link from GitHub themselves](https://docs.github.com/en/get-started/quickstart/github-flow).
