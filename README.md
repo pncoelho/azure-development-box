@@ -36,9 +36,9 @@ The following section describes how the development process for this repo is don
 
 #### Commit Structure
 
-To keep things simple, all commits in this repo will follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) standard.
+To keep things simple, all commits in this repo will follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) standard, basing the available *commit types* on the [Angular convention](https://github.com/angular/angular/blob/22b96b9/CONTRIBUTING.md#-commit-message-guidelines).
 
-#### Commit Validation
+#### Commit Validation - Pre-commit
 
 To ensure commits follow the [standard listed above](#commit-structure), we employ [pre-commit](https://pre-commit.com/) with [Commitizen](https://commitizen-tools.github.io/commitizen/) as a plugin.
 
@@ -46,9 +46,28 @@ This way, when performing commits we can validate the message (and many other in
 
 What you need to do is simply:
 1. Have or install [pre-commit](https://pre-commit.com/#installation)
-2. Setup the git hook scripts with `pre-commit install`
-3. *(Optional):* Run `pre-commit` against all files, to ensure any files you've created are valid
+2. Have or install [Commitizen](https://commitizen-tools.github.io/commitizen/#installation)
+3. Setup the git hook scripts with `pre-commit install`
+4. *(Optional):* Run `pre-commit` against all files, to ensure any files you've created are valid
    1. `pre-commit run --all-files`
+
+At the moment we are using the following Git hooks:
+- trailing-whitespace
+- end-of-file-fixer
+- check-yaml
+- check-added-large-files
+- vagrant-validate
+  - Runs `vagrant validate` when the Vagrantfile changes
+- commitizen
+  - Runs Commitizen's `cz check` to validate the commit message before commiting
+
+#### Helping create the correct commit message - Commitizen
+
+In order to make it easier on contributors to create commits, [Commitizen](https://commitizen-tools.github.io/commitizen/) is used for helping generate the commit messages.
+
+In order for this to help with the messages you create, you need to have [Commitizen installed](https://commitizen-tools.github.io/commitizen/#installation), and afterwards it will use the config file (`.cz.yaml`) in this directory to help validate you commit messages using pre-commit ([check the previous section](#commit-validation---pre-commit)), or by running `cz commit` to have a interactive approach to writing your commit.
+
+For more help on this, please have a look at the [Commitizen `commit` command page](https://commitizen-tools.github.io/commitizen/commit/).
 
 #### Branching Strategy
 
