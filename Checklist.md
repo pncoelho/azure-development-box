@@ -10,6 +10,7 @@ A list of thing to implement and what has already been implemented:
 - [ ] Develope testing for checking the box in the CI pipeline
 - [ ] Create a CD pipeline
 - [ ] Implement [Release Please](https://github.com/googleapis/release-please)
+- [ ] Create [Vagrant box using Packer](https://developer.hashicorp.com/packer/plugins/builders/vagrant) ([helpful guide](https://dev.to/mattdark/a-custom-vagrant-box-with-packer-13ke))
 - [ ] Upload box to [Vagrant Cloud](https://app.vagrantup.com/boxes/search) ([steps on how to do so](https://developer.hashicorp.com/vagrant/vagrant-cloud/boxes/create))
 - [ ] Implement [pre-commit](https://pre-commit.com/)
 - [ ] Implement [Commitizen](https://commitizen-tools.github.io/commitizen/)
