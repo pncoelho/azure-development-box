@@ -88,3 +88,14 @@ As a quick summary, if you have something to add you, the workflow is as follows
 6. With the PR approved, one of the maintainers will merge the PR
 7. With the PR merged, the CD pipeline will run
 8. The CP pipeline will create a new version, with CHANGELOG and (*hopefully soon*) publish the box to Vagrant Cloud
+
+#### Branch Naming Convention
+
+Other than `main`, the *feature branches* will need to follow this naming convention, which follows a similar structure to what is presented [in this article](https://dev.to/varbsan/a-simplified-convention-for-naming-branches-and-commits-in-git-il4).
+
+The structure is as follows: `type/reference/summary`
+
+The logic is:
+- `type`: refers to the the same types as the ones used in our [commit structure definition](#commit-structure)
+- `reference` (**Optional**): points to a GitHub issue
+- `summary`: is a brief description of the purpose of this branch
