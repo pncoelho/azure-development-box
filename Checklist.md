@@ -5,6 +5,7 @@ A list of thing to implement and what has already been implemented:
 - [x] Create a provisioning shell script
 - [x] Implement [pre-commit](https://pre-commit.com/)
 - [x] Implement [Commitizen](https://commitizen-tools.github.io/commitizen/)
+- [ ] Move this checklist to [GitHub Issues](https://github.com/pncoelho/azure-development-box/issues)
 - [ ] Add [badges](https://github.com/badges/shields) as thing get added
 - [ ] Implement control for GitHub Flow branching strategy
 - [ ] Move provisioning to a configuration tool such as Ansible, Puppet or Chef
