@@ -28,8 +28,7 @@ The following section list each of the components that's installed by the provis
 
 ## Contributing
 
-> **TODO:** Move Checklist to GitHub Issues
-To see a list of things still needing to be implemented, please refer to the [Checklist](./Checklist.md)
+To see a list of things still needing to be implemented, please refer to the [issues in the current repository](https://github.com/pncoelho/azure-development-box/issues).
 
 The following section describes how the development process for this repo is done and how to contribute to this project.
 
@@ -141,5 +140,7 @@ The structure is as follows: `type/reference/summary`
 
 The logic is:
 - `type`: refers to the the same types as the ones used in our [commit structure definition](#commit-structure)
-- `reference` (**Optional**): points to a GitHub issue
+- `reference`: Points to a GitHub issue
+  - Should look like `issue-##`
+  - If there is no issue, just use `no-ref`
 - `summary`: is a brief description of the purpose of this branch
