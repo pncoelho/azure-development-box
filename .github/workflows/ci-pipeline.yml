@@ -19,5 +19,6 @@ jobs:
     validate-vagrant-box:
         runs-on: macos-latest
         steps:
+            - uses: actions/checkout@v3
             - run: vagrant up
             - run: vagrant destroy -f
