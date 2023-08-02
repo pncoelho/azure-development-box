@@ -140,6 +140,15 @@ The structure is as follows: `type/reference/summary`
 
 The logic is:
 - `type`: refers to the the same types as the ones used in our [commit structure definition](#commit-structure)
+  - *build*: Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)
+  - *ci*: Changes to our CI configuration files and scripts (example scopes: Travis, Circle, BrowserStack, SauceLabs)
+  - *docs*: Documentation only changes
+  - *feat*: A new feature
+  - *fix*: A bug fix
+  - *perf*: A code change that improves performance
+  - *refactor*: A code change that neither fixes a bug nor adds a feature
+  - *style*: Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)
+  - *test*: Adding missing tests or correcting existing tests
 - `reference`: Points to a GitHub issue
   - Should look like `issue-##`
   - If there is no issue, just use `no-ref`
