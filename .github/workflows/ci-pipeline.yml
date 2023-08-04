@@ -1,42 +1,44 @@
 name: ci-pipeline
+
 on:
-    pull_request:
-        branches:
-            - main
+  pull_request:
+    branches:
+      - main
+
 jobs:
-    # Checks if anything related to Vagrant was changed
-    changes:
-        runs-on: ubuntu-latest
-        outputs:
-            vagrant: ${{ steps.changes.outputs.vagrant }}
-        steps:
-            - uses: dorny/paths-filter@v2
-              id: changes
-              with:
-                filters: |
-                    vagrant:
-                      - 'Vagrantfile'
-                      - 'shell_provision_script.sh'
+  # Checks if anything related to Vagrant was changed
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      vagrant: ${{ steps.changes.outputs.vagrant }}
+    steps:
+      - uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            vagrant:
+              - 'Vagrantfile'
+              - 'shell_provision_script.sh'
 
-    pre-commit:
-        runs-on: macos-latest
-        steps:
-            - uses: actions/checkout@v3
-            - uses: actions/setup-python@v3
-            - uses: pre-commit/action@v3.0.0
+  pre-commit:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v3
+      - uses: pre-commit/action@v3.0.0
 
-    check-conventional-commits:
-        runs-on: ubuntu-latest
-        steps:
-            - uses: taskmedia/action-conventional-commits@v1.1.3
-              with:
-                types: "build|ci|docs|feat|fix|perf|refactor|style|test"
+  check-conventional-commits:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: taskmedia/action-conventional-commits@v1.1.3
+        with:
+          types: "build|ci|docs|feat|fix|perf|refactor|style|test"
 
-    validate-vagrant-box:
-        needs: changes
-        if: ${{ needs.changes.outputs.vagrant == 'true' }}
-        runs-on: macos-latest
-        steps:
-            - uses: actions/checkout@v3
-            - run: vagrant up
-            - run: vagrant destroy -f
+  validate-vagrant-box:
+    needs: changes
+    if: ${{ needs.changes.outputs.vagrant == 'true' }}
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: vagrant up
+      - run: vagrant destroy -f

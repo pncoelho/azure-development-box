@@ -1,0 +1,51 @@
+name: Create Release Bump PR
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - ".cz.yaml"
+      - "CHANGELOG.md"
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    name: "Create new release with Commitizen"
+    steps:
+      - name: Check out
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v3
+
+      - name: Install Commitizen
+        run: pip install --user -U Commitizen
+
+      - name: Bump version and generate CHANGELOG
+        run: cz bump
+
+      - name: Get new version number
+        id: get-new-version-number
+        run: echo "NEW_VERSION=v$(cz version -p)" >> $GITHUB_OUTPUT
+
+      - name: Incremental CHANGELOG for PR body
+        id: incremental-changelog
+        run: |
+          echo "INCREMENTAL_CHANGELOG=$(cz changelog --dry-run --start-rev ${{ steps.get-new-version-number.outputs.NEW_VERSION }})\n" >> $GITHUB_OUTPUT
+
+      - name: Create Pull Request
+        id: cpr
+        uses: peter-evans/create-pull-request@v5
+        with:
+          title: "RELEASE-BUMP-PR: bump to ${{ steps.get-new-version-number.outputs.NEW_VERSION }}"
+          body: ${{ steps.incremental-changelog.outputs.INCREMENTAL_CHANGELOG }}
+          commit-message: "RELEASE-BUMP-PR: bump to ${{ steps.get-new-version-number.outputs.NEW_VERSION }}"
+          branch: release-bump-branch
+          committer: GitHub <noreply@github.com>
+          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+          delete-branch: true
+          labels: |
+            new-release
+            automated-pr
