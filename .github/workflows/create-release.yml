@@ -1,4 +1,4 @@
-name: create release pr
+name: Create Release
 
 on:
     push:
