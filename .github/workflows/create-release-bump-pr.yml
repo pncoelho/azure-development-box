@@ -28,6 +28,10 @@ jobs:
          git config user.name "${{ github.actor }}"
          git config user.email ${{ github.actor }}@users.noreply.github.com
 
+      - name: Get old version number
+        id: get-old-version-number
+        run: echo "OLD_VERSION=v$(cz version -p)" >> $GITHUB_OUTPUT
+
       - name: Bump version and generate CHANGELOG
         run: cz bump
 
@@ -38,7 +42,7 @@ jobs:
       - name: Incremental CHANGELOG for PR body
         id: incremental-changelog
         run: |
-          echo "INCREMENTAL_CHANGELOG=$(cz changelog --dry-run --start-rev ${{ steps.get-new-version-number.outputs.NEW_VERSION }})\n" >> $GITHUB_OUTPUT
+          echo "INCREMENTAL_CHANGELOG=$(cz changelog --dry-run --start-rev ${{ steps.get-old-version-number.outputs.OLD_VERSION }})" >> $GITHUB_OUTPUT
 
       - name: Create Pull Request
         id: cpr
