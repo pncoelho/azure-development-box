@@ -6,9 +6,9 @@ on:
             - main
 
 jobs:
-    create-changelog:
+    create-release:
         runs-on: ubuntu-latest
-        name: "Create changelog with Commitizen"
+        name: "Create new release with Commitizen"
         steps:
             - name: Check out
               uses: actions/checkout@v3
@@ -19,13 +19,12 @@ jobs:
               uses: commitizen-tools/commitizen-action@master
               with:
                 github_token: ${{ secrets.GITHUB_TOKEN }}
-                dry_run: true
                 changelog_increment_filename: body.md
 
-            - name: Create Pull Request
-              uses: peter-evans/create-pull-request@v5
+            - name: Create GitHub release
+              uses: softprops/action-gh-release@v1
               with:
-                branch: "release/proposed-release_"
-                branch-suffix: random
-                title: "Proposed New Release"
-                body-path: body.md
+                body_path: "body.md"
+                tag_name: ${{ env.REVISION }}
+              env:
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
