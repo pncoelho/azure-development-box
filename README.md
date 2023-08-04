@@ -1,3 +1,7 @@
+> **THIS PROJECT IS STILL IN DEVELOPMENT**
+>
+> The main purpose of this project is for experimenting and practicing SDLC and DevOps best practices, so please use this project remember that the actual Vagrant box is an afterthought, intended to serve as an *Hello World* of sorts.
+
 # Azure Development Box
 
 A Vagrant box for creating an Azure Development Environment.
@@ -39,6 +43,52 @@ List of things you need installed in your environment in order to contribute to 
 - ***Optional but recomended:***  [pre-commit](https://pre-commit.com/)
 - ***Optional but recomended:***  [Commitizen](https://commitizen-tools.github.io/commitizen/)
 
+### Branching Strategy
+
+The selected branching strategy for this project is Trunk Based Development. If you are not familiar with it, please have a look at the [following link](https://trunkbaseddevelopment.com/).
+
+As a quick summary, if you have something to add you, the workflow is as follows:
+1. Create a new **short lived** *feature branch*
+2. **Add your changes to that branch**
+3. When you've implemented what you wanted, **create a PR to merge** your features to `main`
+4. When the PR is created, the **CI pipeline will run and check if everything is OK** with your code
+5. If the CI pipeline run is valid, **reviewers will approve the PR**
+6. With the PR approved, one of the **maintainers will merge the PR**
+7. With the **PR merged**, your **code is now added** to our `main` stable branch (or *trunk branch*)
+8. At this point, your part is done, but behind the scenes **pipelines will take care of creating a release** with the changes you just added
+
+### Branch Protection
+
+To ensure we employ TBD correctly and the `main` branch always has a releasable version of our code, we employ the following GitHub branch protections that:
+- Require a pull request before merging
+- Pull requests require a minimum of 1 approval and no changes requested before they can be merged.
+- When new commits are pushed, dismiss stale pull request approvals
+- Require review from Code Owners
+
+### Branch Naming Convention
+
+Other than `main`, the *feature branches* will need to follow this naming convention, which follows a similar structure to what is presented [in this article](https://dev.to/varbsan/a-simplified-convention-for-naming-branches-and-commits-in-git-il4).
+
+The structure is as follows: `type/reference/summary`
+
+The logic is:
+- `type`: refers to the the same types as the ones used in our [commit structure definition](#commit-structure)
+  - *build*: Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)
+  - *ci*: Changes to our CI configuration files and scripts (example scopes: Travis, Circle, BrowserStack, SauceLabs)
+  - *docs*: Documentation only changes
+  - *feat*: A new feature
+  - *fix*: A bug fix
+  - *perf*: A code change that improves performance
+  - *refactor*: A code change that neither fixes a bug nor adds a feature
+  - *style*: Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)
+  - *test*: Adding missing tests or correcting existing tests
+- `reference`: Points to a GitHub issue
+  - Should look like `issue-##`
+  - If there is no issue, just use `no-ref`
+- `summary`: is a brief description of the purpose of this branch
+
+The **only exception to this rule** is the `bump-release-branch` that is used to create a Release PR, that serves for approving the creation of a new release whenever code is added to `main`. You can find more info on this on the [Bumping Project Version](#bumping-project-version) and the [Release Process](#release-process) section.
+
 ### Commit Structure
 
 To keep things simple, all commits in this repo will follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) standard, basing the available *commit types* on the [Angular convention](https://github.com/angular/angular/blob/22b96b9/CONTRIBUTING.md#-commit-message-guidelines).
@@ -75,7 +125,7 @@ This way, when performing commits we can validate the message before creating th
 
 ***NOTE:* If you are using [pre-commit](#pre-commit) this is a required tool**.
 
-It is not required for contributing to this project if you are not using pre-commit (*why not though?*), but if you are new to [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/), or are prone to error like any human being, we **highly recommend it** for writing commit messages.
+It is not required for contributing to this project if you are not using pre-commit (*why not though?*), but if you are new to [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/), or *are prone to error like any human being*, we **highly recommend it** for writing commit messages.
 
 #### Helping create the correct commit message
 
@@ -91,65 +141,58 @@ For more help on this, please have a look at the [Commitizen `commit` command pa
 
 #### Bumping Project Version
 
-Commitizen can also take care of bumping the project by simply running `cz bump`.
+Commitizen can also take care of bumping the project by simply running `cz bump`, but before we can take advantage of this we need to understand how this command works:
 
-This command will:
-- Check the current version, check the commits since then and calculate the new version
-- Update the CHANGELOG with all changes done since the last version
-  - Or create a CHANGELOG if your creating the first version
-- Create a [Git tag](https://git-scm.com/book/en/v2/Git-Basics-Tagging) with the updated Commitizen config file and change log
-
-We will use Commitizen to help with this part of the release process, but there is an important note to make:
-
-> When running `cz bump` Commitizen will do the following:
-> - Update the CHANGELOG and the `.cz.yaml` config file
+> - Update the CHANGELOG (add list of changes) and the `.cz.yaml` config file (update the version)
 > - Create a new commit with these changes with a message similar to `bump: version x.x.x -> y.y.y.`
 > - Creates a Git tag pointing to this new commit
 
-Now, if we want the tag to point to a commit in the `main` branch (which is our case, since our *stable* or *release* code is what is in `main`), we need to run `cz bump` on the `main` branch.
+Now, our `main` branch is our *source of truth* and it's from this *trunk branch* that we want to create tags and releases. To ensure that it's always a stable and releasable version of our code, we employ branch protection rules (have a look [over here](#branch-protection) for info on this) to ensure that no direct changes can be pushed to this branch.
 
-This means that `cz bump` should **only be run in the CD pipeline, since no one else should be able to directly commit and push to `main`.**
+Since the branch is protected, this means **we can't** (or at least shouldn't) **run** `cz bump` **directly on** `main`, **because we don't want to push any commits directly to** `main`.
+
+If we simply tried to run `cz bump` in the feature branch, or another temporary branch, the tag that would be created, would be pointing to a commit that is not on the `main` branch, which is not an ideal solution as well.
+
+How the actual release process is handled is discussed in on the [Release Process section](#release-process) and we show we still take advantage of Commitizen while not going against our branch protection rules.
 
 #### Useful Commitizen Commands
 
 - `cz commit`: assisted commit message writing
 - `cz bump`: bump project version and create a Git tag
-- `cz bump --major-version-zero`: the same as `cz bump`, but if we're using v0, maintains the major version to `0`
 - `cz bump --dry-run`: performs a dry run of `cz bump`
 - `cz version -p`: returns the current version of the project
 
-### Branching Strategy
+## Release Process
 
-The selected branching strategy for this project is GitHub Flow. If you are not familiar with it, please have a look at the [following link from GitHub themselves](https://docs.github.com/en/get-started/quickstart/github-flow).
+Since we're using [TBD as our branching strategy](#branching-strategy), every time a PR is merged to `main`, we will consider this a new version, and we want to automatically create a new *git tag* and *GitHub Release*
 
-As a quick summary, if you have something to add you, the workflow is as follows:
-1. Create a new (*feature*) branch
-2. Add your changes to that branch
-3. When you've implemented what you wanted, create a PR to merge your features to `main`
-4. When the PR is create, the CI pipeline will run and check if everything is OK with your code
-5. If the CI pipeline run is valid, reviewers will approve the PR
-6. With the PR approved, one of the maintainers will merge the PR
-7. With the PR merged, the CD pipeline will run
-8. The CP pipeline will create a new version, with CHANGELOG and (*hopefully soon*) publish the box to Vagrant Cloud
+But we do have to note that by using **protected branches**, an **automated pipeline cannot directly push** to these branches as a security policy ([see this discussion](https://github.com/orgs/community/discussions/25305#discussioncomment-3247401)), so we have to employ a workaround to ease the creation of a release.
 
-### Branch Naming Convention
+So the way we approach this is to use the following workflow:
 
-Other than `main`, the *feature branches* will need to follow this naming convention, which follows a similar structure to what is presented [in this article](https://dev.to/varbsan/a-simplified-convention-for-naming-branches-and-commits-in-git-il4).
-
-The structure is as follows: `type/reference/summary`
-
-The logic is:
-- `type`: refers to the the same types as the ones used in our [commit structure definition](#commit-structure)
-  - *build*: Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)
-  - *ci*: Changes to our CI configuration files and scripts (example scopes: Travis, Circle, BrowserStack, SauceLabs)
-  - *docs*: Documentation only changes
-  - *feat*: A new feature
-  - *fix*: A bug fix
-  - *perf*: A code change that improves performance
-  - *refactor*: A code change that neither fixes a bug nor adds a feature
-  - *style*: Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)
-  - *test*: Adding missing tests or correcting existing tests
-- `reference`: Points to a GitHub issue
-  - Should look like `issue-##`
-  - If there is no issue, just use `no-ref`
-- `summary`: is a brief description of the purpose of this branch
+1. User creates a *feature branch* using `main` as a basis
+2. User creates whatever *commits* are needed
+3. User pushes the *commits* and the *feature branch* to *remote*
+4. User creates a PR to merge their *feature branch* to `main`
+5. Reviewers approve the PR and it is merged
+6. Changes are pushed to `main`
+7. Release bump pr pipeline performs the following tasks:
+   > **triggers on pushes to `main` but excludes changes to `CHANGELOG.md` and `.cz.yaml` files**
+   1. Creates a temporary `bump-release-branch`
+   2. Calculates the new version and updates the Commitizen config file (`.cz.yaml`)
+   3. Updates the CHANGELOG
+   4. Commits both changes to this branch
+   > *NOTE:* steps 2-4 will be done with `cz bump`, which will also create a `git tag` with this new version. Since we want the tag to point to main, and not this commit, in this branch, this tag will be ignored and a new one will be created in the *release creation pipeline*.
+   5. Creates a release PR to merge this temporary branch
+      1. Body: the CHANGELOG differences between the last release and this one
+      2. Title:
+         > RELEASE-BUMP-PR: bump to `RELEASE_NUMBER`
+   6. Adds comment to PR to forge a review before merge
+   > **NOTE:** while this PR is not merged, any other feature branch PR that gets merged, will have it's changes reflected on this branch and release PR
+8. If the PR gets merged, the release creation pipeline performs the following tasks:
+   > **triggers on pushes to `main` that change the `CHANGELOG.md` and `.cz.yaml` files and that the last commit message has `RELEASE-BUMP-PR` in the message**
+   1. creates a tag with the new release
+      1. contains the CHANGELOG differences between this version and the last
+   2. creates a GitHub Release
+      1. points to the new tag
+      2. contains the CHANGELOG differences between this version and the last
