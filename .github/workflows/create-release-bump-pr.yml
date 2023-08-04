@@ -23,6 +23,11 @@ jobs:
       - name: Install Commitizen
         run: pip install --user -U Commitizen
 
+      - name: Initialize mandatory git config
+        run: |
+         git config user.name "${{ github.actor }}"
+         git config user.email <${{ github.actor }}@users.noreply.github.com>
+
       - name: Bump version and generate CHANGELOG
         run: cz bump
 
