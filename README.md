@@ -87,7 +87,7 @@ The logic is:
   - If there is no issue, just use `no-ref`
 - `summary`: is a brief description of the purpose of this branch
 
-The **only exception to this rule** is the `bump-release-branch` that is used to create a Release PR, that serves for approving the creation of a new release whenever code is added to `main`. You can find more info on this on the [Bumping Project Version](#bumping-project-version) and the [Release Process](#release-process) section.
+The **only exception to this rule** is the `release-bump-branch` that is used to create a Release PR, that serves for approving the creation of a new release whenever code is added to `main`. You can find more info on this on the [Bumping Project Version](#bumping-project-version) and the [Release Process](#release-process) section.
 
 ### Commit Structure
 
@@ -178,7 +178,7 @@ So the way we approach this is to use the following workflow:
 6. Changes are pushed to `main`
 7. Release bump pr pipeline performs the following tasks:
    > **triggers on pushes to `main` but excludes changes to `CHANGELOG.md` and `.cz.yaml` files**
-   1. Creates a temporary `bump-release-branch`
+   1. Creates a temporary `release-bump-branch`
    2. Calculates the new version and updates the Commitizen config file (`.cz.yaml`)
    3. Updates the CHANGELOG
    4. Commits both changes to this branch
