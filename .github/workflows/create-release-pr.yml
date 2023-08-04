@@ -3,7 +3,7 @@ name: create release pr
 on:
     push:
         branches:
-            - master
+            - main
 
 jobs:
     create-changelog:
