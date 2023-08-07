@@ -44,7 +44,7 @@ jobs:
   create-new-release:
     runs-on: ubuntu-latest
     name: "Create new GitHub release"
-    needs: check-if-release
+    needs: create-new-tag
     if: needs.check-if-release.outputs.LAST_COMMIT_VALID
     steps:
       - name: Check out
