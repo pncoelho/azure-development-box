@@ -1,3 +1,11 @@
+## v0.1.1 (2023-08-07)
+
+### Refactor
+
+- **ci**: Minor visual changes for readability
+- Corrected missing new line at the end of some files
+- **codeowners**: Added CODEOWNERS file
+
 ## v0.1.0 (2023-08-01)
 
 ### Feat
