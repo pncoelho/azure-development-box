@@ -33,11 +33,22 @@ jobs:
         run: echo "OLD_VERSION=v$(cz version -p)" >> $GITHUB_OUTPUT
 
       - name: Bump version and generate CHANGELOG
-        run: cz bump
+        run: cz -nr 21 bump
 
       - name: Get new version number
         id: get-new-version-number
         run: echo "NEW_VERSION=v$(cz version -p)" >> $GITHUB_OUTPUT
+
+      - name: Check version bump is required
+        id: check-version-bump
+        run: |
+          if [ "$${{ steps.get-old-version-number.outputs.OLD_VERSION }}" = "$${{ steps.get-new-version-number.outputs.NEW_VERSION }}" ]; then
+            # Skip the rest of the pipeline if no version bump is required
+            gh run cancel ${{ github.run_id }}
+            gh run watch ${{ github.run_id }}
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Incremental CHANGELOG for PR body
         id: incremental-changelog
