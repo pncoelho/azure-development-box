@@ -1,3 +1,9 @@
+## v0.2.1 (2023-08-07)
+
+### Fix
+
+- **vagrantfile**: Reenable folder sync
+
 ## v0.2.0 (2023-08-07)
 
 ### Feat
