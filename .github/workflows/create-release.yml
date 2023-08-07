@@ -9,27 +9,12 @@ on:
       - "CHANGELOG.md"
 
 jobs:
-  check-if-release:
-    runs-on: ubuntu-latest
-    name: "Check if previous commit was a release PR merge"
-    steps:
-      - name: Check last commit
-        id: check-last-commit
-        run: |
-          STR="${{ github.event.head_commit.message }}"
-          SUB1='merge'
-          SUB2='release-bump-branch'
-          if [[ "$STR" == *"$SUB1"* ]] && [[ "$STR" == *"$SUB2"* ]]; then
-            echo "LAST_COMMIT_VALID=true" >> $GITHUB_OUTPUT
-          else
-            echo "LAST_COMMIT_VALID=false" >> $GITHUB_OUTPUT
-          fi
-
   create-new-tag:
     runs-on: ubuntu-latest
     name: "Create new release tag"
-    needs: check-if-release
-    if: needs.check-if-release.outputs.LAST_COMMIT_VALID == 'true'
+    # Checks if the last commit has 'merge' and the branch name 'release-bump-branch' in it
+    # Meaning it's the result of merging the release PR
+    if: ${{ contains(fromJSON('["merge", "release-bump-branch"]'), github.event.head_commit.message) }}
     steps:
       - name: Check out
         uses: actions/checkout@v3
