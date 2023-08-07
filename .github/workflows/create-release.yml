@@ -60,7 +60,7 @@ jobs:
           # Generate random EOF
           EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
           echo "INCREMENTAL_CHANGELOG<<$EOF" >> $GITHUB_OUTPUT
-          echo "$(cz changelog --dry-run --start-rev v${{ steps.get-release-version-number.outputs.RELEASE_VERSION }})" >> $GITHUB_OUTPUT
+          echo "$(cz changelog --dry-run v${{ steps.get-release-version-number.outputs.RELEASE_VERSION }})" >> $GITHUB_OUTPUT
           echo "$EOF" >> $GITHUB_OUTPUT
 
       - name: Create Release
