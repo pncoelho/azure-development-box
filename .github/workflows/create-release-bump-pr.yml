@@ -42,7 +42,7 @@ jobs:
       - name: Incremental CHANGELOG for PR body
         id: incremental-changelog
         run: |
-          echo "INCREMENTAL_CHANGELOG=$(cz changelog --dry-run --start-rev ${{ steps.get-old-version-number.outputs.OLD_VERSION }})" >> $GITHUB_OUTPUT
+          echo "INCREMENTAL_CHANGELOG=''$(cz changelog --dry-run --start-rev ${{ steps.get-old-version-number.outputs.OLD_VERSION }})''" >> $GITHUB_OUTPUT
 
       - name: Create Pull Request
         id: cpr
