@@ -1,3 +1,9 @@
+## v0.2.4 (2023-08-07)
+
+### Fix
+
+- **release**: Fix the Tag and Release pipeline
+
 ## v0.2.3 (2023-08-07)
 
 ### Fix
