@@ -1,3 +1,9 @@
+## v0.2.0 (2023-08-07)
+
+### Feat
+
+- **vagrantfile**: Disabled synced folder
+
 ## v0.1.1 (2023-08-07)
 
 ### Refactor
