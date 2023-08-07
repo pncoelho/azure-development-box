@@ -1,3 +1,9 @@
+## v0.2.5 (2023-08-07)
+
+### Fix
+
+- **release**: Corrected order in release pipeline
+
 ## v0.2.4 (2023-08-07)
 
 ### Fix
