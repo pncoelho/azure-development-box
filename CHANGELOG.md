@@ -1,3 +1,9 @@
+## v0.2.2 (2023-08-07)
+
+### Fix
+
+- **vagrantfile**: Disable synced folder
+
 ## v0.2.1 (2023-08-07)
 
 ### Fix
