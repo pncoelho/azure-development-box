@@ -30,7 +30,6 @@ jobs:
     runs-on: ubuntu-latest
     name: "Create new GitHub release"
     needs: create-new-tag
-    if: needs.check-if-release.outputs.LAST_COMMIT_VALID
     steps:
       - name: Check out
         uses: actions/checkout@v3
