@@ -14,7 +14,7 @@ jobs:
     name: "Create new release tag"
     # Checks if the last commit has 'merge' and the branch name 'release-bump-branch' in it
     # Meaning it's the result of merging the release PR
-    if: ${{ contains(fromJSON('["merge", "release-bump-branch"]'), github.event.head_commit.message) }}
+    if: contains(github.event.head_commit.message, 'merge') && contains(github.event.head_commit.message, 'release-bump-branch')
     steps:
       - name: Check out
         uses: actions/checkout@v3
